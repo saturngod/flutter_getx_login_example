@@ -16,9 +16,13 @@ class _HomeControlPageState extends State<HomeControlPage> {
   Future<Widget> goto() async {
     String token = await User.getToken();
     if (token != null) {
-      bool refresh = await controller.refresh();
-      if (refresh) {
-        return HomePage();
+      try {
+        bool refresh = await controller.refresh();
+        if (refresh) {
+          return HomePage();
+        }
+      } catch (e) {
+        return LoginPage();
       }
     }
     return LoginPage();
